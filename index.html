@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather-app</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <div class="container">
+        <form id="search" action="/search" method="GET"></form>
+        <p>Weather-app</p>
+        <div class="entering">
+            <input type="search" class="enter" required placeholder="Enter the city" value="{{ .SearchKey }}" name="q" form="search">
+            <button form="search">Get weather</button>
+        </div>
+        {{ if eq .Status 404 }}
+        <div class="error">
+            <h3>The city not found!</h3>
+        </div>
+        {{ end }}
+        {{ if ne .Status 404 }}
+        <div class="info">
+            <ul class="info-list">
+                <li>City: {{ .Response.Name }}</li>
+                {{ range .Response.Weather }}
+                <li>Description: {{ .Main }}</li>
+                {{ end }}
+                <li>Temperature: {{ .Response.Main.Temp }} ℃</li>
+                <li>Feels like: {{ .Response.Main.FeelsLike }} ℃</li>
+                <li>Sunrise: {{ .Response.SunriseTime }}</li>
+                <li>Sunset: {{ .Response.SunsetTime }}</li>
+            </ul>
+        </div>
+        {{ end }}
+    </div>
+</body>
+</html>
